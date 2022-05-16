@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
 import useStyles from "./styles";
 import { useDispatch } from "react-redux";
-import memories from "../../images/memories.png";
+import travel from "../../images/travel.jpg";
 import { useNavigate } from "react-router-dom";
 import decode from "jwt-decode";
 
@@ -38,9 +38,9 @@ const Navbar = () => {
 		<AppBar className={classes.appBar} position="static" color="inherit">
 			<div className={classes.brandContainer}>
 				<Typography component={Link} to="/" className={classes.heading} variant="h2" align="center">
-					Memories
+					Voyaged.
 				</Typography>
-				<img className={classes.image} src={memories} alt="icon" height="60" />
+				<img className={classes.image} src={travel} alt="icon" height="100" />
 			</div>
 			<Toolbar className={classes.toolbar}>
 				{user?.result ? (
