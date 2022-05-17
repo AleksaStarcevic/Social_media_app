@@ -3,6 +3,7 @@ import {
 	START_LOADING,
 	FETCH_BY_SEARCH,
 	FETCH_ALL,
+	FETCH_POST,
 	CREATE,
 	UPDATE,
 	DELETE,
@@ -23,6 +24,8 @@ export default (state = { isLoading: true, posts: [] }, action) => {
 			};
 		case FETCH_BY_SEARCH:
 			return { ...state, posts: action.payload };
+		case FETCH_POST:
+			return { ...state, post: action.payload };
 		case LIKE:
 			return { ...state, posts: state.posts.map(post => (post._id === action.payload._id ? action.payload : post)) };
 		case CREATE:
