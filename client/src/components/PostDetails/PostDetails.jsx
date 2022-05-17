@@ -7,6 +7,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getPost, getPostsBySearch } from "../../actions/posts";
 // import CommentSection from "./CommentSection";
 import useStyles from "./styles";
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 
 const PostDetails = () => {
 	const { post, posts, isLoading } = useSelector(state => state.posts);
@@ -14,6 +15,9 @@ const PostDetails = () => {
 	const history = useNavigate();
 	const classes = useStyles();
 	const { id } = useParams();
+	const {} = useLoadScript({
+		googleMapsApiKey: process.env.REACT_APP_API,
+	});
 
 	useEffect(() => {
 		dispatch(getPost(id));
@@ -56,11 +60,17 @@ const PostDetails = () => {
 					<Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
 					<Divider style={{ margin: "20px 0" }} />
 					<Typography variant="body1">
-						<strong>Realtime Chat - coming soon!</strong>
+						<strong>Map</strong>
 					</Typography>
+					<GoogleMap
+						zoom={4}
+						center={{ lat: 50, lng: 15 }}
+						mapContainerStyle={{ height: "300px", width: "600px" }}
+					></GoogleMap>
+
 					<Divider style={{ margin: "20px 0" }} />
 					<Typography variant="body1">
-						<strong>Comments - coming soon!</strong>
+						<strong>Comments</strong>
 					</Typography>
 					<Divider style={{ margin: "20px 0" }} />
 				</div>
