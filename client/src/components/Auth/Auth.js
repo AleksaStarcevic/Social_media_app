@@ -9,6 +9,8 @@ import { GoogleLogin } from "react-google-login";
 import { useNavigate } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { signin, signup } from "../../actions/auth";
+import ReCAPTCHA from "react-google-recaptcha";
+
 const initialState = { firstName: "", lastName: "", email: "", password: "", confirmPassword: "" };
 
 const Auth = () => {
@@ -18,6 +20,7 @@ const Auth = () => {
 	const dispatch = useDispatch();
 	const history = useNavigate();
 	const [formData, setFormData] = useState(initialState);
+	const [disabled, setDisabled] = useState(true);
 
 	const handleSubmit = e => {
 		e.preventDefault();
@@ -53,6 +56,7 @@ const Auth = () => {
 	};
 
 	const googleError = () => alert("Google Sign In was unsuccessful. Try again later");
+	const handleChangeCaptcha = () => setDisabled(false);
 
 	return (
 		<Container component="main" maxWidth="xs">
@@ -83,18 +87,26 @@ const Auth = () => {
 							<Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password" />
 						)}
 					</Grid>
-					<Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+					<Button
+						disabled={disabled}
+						type="submit"
+						fullWidth
+						variant="contained"
+						color="primary"
+						className={classes.submit}
+					>
 						{isSignup ? "Sign Up" : "Sign In"}
 					</Button>
 					<GoogleLogin
 						clientId="596366112633-mfgsggpqv9hhd8l5eupgqs2uutc8o237.apps.googleusercontent.com"
 						render={renderProps => (
 							<Button
+								disabled={disabled}
 								className={classes.googleButton}
 								color="primary"
 								fullWidth
 								onClick={renderProps.onClick}
-								disabled={renderProps.disabled}
+								// disabled={renderProps.disabled}
 								startIcon={<Icon />}
 								variant="contained"
 							>
@@ -105,6 +117,9 @@ const Auth = () => {
 						onFailure={googleError}
 						cookiePolicy="single_host_origin"
 					/>
+					<Grid container justify="center">
+						<ReCAPTCHA sitekey="6LfDm_4fAAAAAGe3u_4IV-NxbT7YUNBWybSj6wR0" onChange={handleChangeCaptcha}></ReCAPTCHA>
+					</Grid>
 					<Grid container justify="flex-end">
 						<Grid item>
 							<Button onClick={switchMode}>
