@@ -5,7 +5,7 @@ import moment from "moment";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { getPost, getPostsBySearch } from "../../actions/posts";
-// import CommentSection from "./CommentSection";
+import CommentSection from "./CommentSection";
 import useStyles from "./styles";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 
@@ -23,15 +23,15 @@ const PostDetails = () => {
 		dispatch(getPost(id));
 	}, [id]);
 
-	// useEffect(() => {
-	// 	if (post) {
-	// 		dispatch(getPostsBySearch({ search: "none", tags: post?.tags.join(",") }));
-	// 	}
-	// }, [post]);
+	useEffect(() => {
+		if (post) {
+			dispatch(getPostsBySearch({ search: "none", tags: post?.tags.join(",") }));
+		}
+	}, [post]);
 
 	if (!post) return null;
 
-	// const openPost = _id => history(`/posts/${_id}`);
+	const openPost = _id => history(`/posts/${_id}`);
 
 	if (isLoading) {
 		return (
@@ -41,7 +41,7 @@ const PostDetails = () => {
 		);
 	}
 
-	// const recommendedPosts = posts.filter(({ _id }) => _id !== post._id);
+	const recommendedPosts = posts.filter(({ _id }) => _id !== post._id);
 
 	return (
 		<Paper style={{ padding: "20px", borderRadius: "15px" }} elevation={6}>
@@ -69,9 +69,7 @@ const PostDetails = () => {
 					></GoogleMap>
 
 					<Divider style={{ margin: "20px 0" }} />
-					<Typography variant="body1">
-						<strong>Comments</strong>
-					</Typography>
+					<CommentSection post={post} />
 					<Divider style={{ margin: "20px 0" }} />
 				</div>
 				<div className={classes.imageSection}>
@@ -85,7 +83,7 @@ const PostDetails = () => {
 					/>
 				</div>
 			</div>
-			{/* {!!recommendedPosts.length && (
+			{!!recommendedPosts.length && (
 				<div className={classes.section}>
 					<Typography gutterBottom variant="h5">
 						You might also like:
@@ -111,7 +109,7 @@ const PostDetails = () => {
 						))}
 					</div>
 				</div>
-			)} */}
+			)}
 		</Paper>
 	);
 };
